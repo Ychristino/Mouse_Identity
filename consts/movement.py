@@ -1,0 +1,4 @@
+LEFT = -127
+RIGHT= 127
+UP = 128
+DOWN = 128
