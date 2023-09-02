@@ -1,4 +1,4 @@
-import generate_heatmap_graph
+from process import generate_heatmap_graph
 import pandas as pd
 
 print("teste")

@@ -1,6 +1,6 @@
 import flet as ft
 
-from elements.element_run_training import checkbox_user_list, checkbox_model_list, select_game, button_play, button_stop
+from page.elements.element_run_training import checkbox_user_list, checkbox_model_list, select_game, button_play, button_stop
 
 
 def Visualize_Data(page: ft.Page):
@@ -56,7 +56,11 @@ def Visualize_Data(page: ft.Page):
                                         tight=True
                                     ))
 
+    filter_container.id = 'filter_container'
+    action_container.id = 'action_container'
+
     page.scroll = ft.ScrollMode.AUTO
+
     # PAGE
     page.add(
         filter_container,
