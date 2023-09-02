@@ -1,4 +1,4 @@
-LINEAR   = 'Linear'
-SVC 	 = 'SVC'
+LINEAR = 'Linear'
+SVC = 'SVC'
 GAUSSIAN = 'Gaussian'
-TREE 	 = 'Tree'
+TREE = 'Tree'

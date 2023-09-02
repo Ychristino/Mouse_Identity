@@ -1,7 +1,7 @@
 import flet as ft
 
-from elements.element_visualize_data import select_graph_type, select_game, button_generate_graph, button_preview, \
-    button_next, chart
+from page.elements.element_visualize_data import select_graph_type, select_game, button_generate_graph, button_preview, \
+    button_next  # , chart
 
 
 def Visualize_Data(page: ft.Page):
@@ -68,22 +68,15 @@ def Visualize_Data(page: ft.Page):
                                   alignment=ft.alignment.bottom_center,
                                   content=ft.Column(
                                       [
-                                          ft.Row(
-                                              [
-                                                  graph_control_container
-                                              ],
-                                              tight=True
-                                          ),
-                                          ft.Row(
-                                              [
-                                                  chart
-                                              ],
-                                              tight=True,
-                                              alignment=ft.MainAxisAlignment.SPACE_AROUND
-                                          )
                                       ],
                                       spacing=0
                                   ))
+
+    filter_container.id = 'container_filter'
+    graph_control_container.id = 'container_controls'
+    action_container.id = 'container_action'
+    plot_container.id = 'container_graph'
+
     page.scroll = ft.ScrollMode.AUTO
     # PAGE
     page.add(

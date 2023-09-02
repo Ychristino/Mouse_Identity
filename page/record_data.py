@@ -1,5 +1,5 @@
 import flet as ft
-from elements.element_record_data import switch_main_user, input_text_username, select_game, button_play, button_stop
+from page.elements.element_record_data import switch_main_user, input_text_username, select_game, button_play, button_stop
 
 
 def Record_Data(page: ft.Page):
@@ -68,8 +68,11 @@ def Record_Data(page: ft.Page):
                                         tight=True
                                     ))
 
-    page.scroll = ft.ScrollMode.AUTO
+    action_container.id = 'action_container'
+    game_container.id = 'game_container'
+    user_container.id = 'user_container'
 
+    page.scroll = ft.ScrollMode.AUTO
     # PAGE
     page.add(
         user_container,

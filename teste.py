@@ -1,4 +1,4 @@
-import generate_heatmap_graph
+from process import generate_heatmap_graph
 import pandas as pd
 
 if __name__ == "__main__":
