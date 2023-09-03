@@ -56,8 +56,9 @@ class record:
     All the data will be stored in separated files named as the task informed on the run method.
     Data files will have a suffix informing what the file contains, status or events.
     Event Files will contain all the tracking data, when a click was performed, which direction the cursor is running and what time is this beeing recorded.
-    Status Files will contain a general analysys of the run. Will show how many times the click was active, the distance traveled bu the mouse cursor, etc.
+    Status Files will contain a general analysys of the run. Will show how many times the click was active, the distance traveled by the mouse cursor, etc.
     """
+
     def __init__(self,
                  sample_size: int = 2000,
                  sample_collection_interval: float = 0.01,
@@ -105,7 +106,7 @@ class record:
 
     def __init_movement_variables(self):
         """
-        Create and initialize all the variables used in the movement analysys.
+        Create and initialize all the variables used in the movement analysis.
         """
         self.l_mov = False
         self.r_mov = False
@@ -218,8 +219,8 @@ class record:
              'horizontal_dist': (x_position - self.mov_hor_dist) if self.is_moving_hor else 0,
              'vertical_dist': (y_position - self.mov_ver_dist) if self.is_moving_ver else 0,
 
-             'hor_movement_time': f'{(time.time() - self.delta_hor_mov):.2f}',
-             'ver_movement_time': f'{(time.time() - self.delta_ver_mov):.2f}',
+             'hor_movement_time': f'{(time.time() - self.delta_hor_mov):.2f}' if self.is_moving_hor else f'{0:.2f}',
+             'ver_movement_time': f'{(time.time() - self.delta_ver_mov):.2f}' if self.is_moving_ver else f'{0:.2f}',
 
              'l_mov_count': self.l_mov_count,
              'r_mov_count': self.r_mov_count,
@@ -316,6 +317,7 @@ class record:
                                                )
 
         return self.mouse_stats_dataframe
+
     def __click_status(self):
         """
         Check if a click is performed and record it on the dataframe
