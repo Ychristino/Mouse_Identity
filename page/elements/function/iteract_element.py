@@ -61,8 +61,42 @@ def disable_element_list(elements_list: list) -> None:
         element.page.update()
 
 
+def update_barchart(barchart: ft.BarChart,
+                    new_barchart: ft.BarChart
+                    ) -> ft.BarChart:
+    barchart.bar_groups = new_barchart.bar_groups
+    barchart.groups_space = new_barchart.groups_space
+    barchart.animate = new_barchart.animate
+    barchart.interactive = new_barchart.interactive
+    barchart.bgcolor = new_barchart.bgcolor
+    barchart.tooltip_bgcolor = new_barchart.tooltip_bgcolor
+    barchart.border = new_barchart.border
+    barchart.horizontal_grid_lines = new_barchart.horizontal_grid_lines
+    barchart.vertical_grid_lines = new_barchart.vertical_grid_lines
+    barchart.left_axis = new_barchart.left_axis
+    barchart.right_axis = new_barchart.right_axis
+    barchart.top_axis = new_barchart.top_axis
+    barchart.bottom_axis = new_barchart.bottom_axis
+    barchart.min_y = new_barchart.min_y
+    barchart.max_y = new_barchart.max_y
+
+    return barchart
+
+
+def remove_element(elements_list: list) -> None:
+    """
+    Remove an element from the interface
+    :param elements_list: Element List to be removed
+    """
+    page = None
+    for element in elements_list:
+        page = element.page
+        page.remove(element)
+
+    page.update()
+
+
 def show_into_container(container,
                         element
                         ):
     container.content.controls.append(element)
-

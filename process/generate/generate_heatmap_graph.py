@@ -151,6 +151,10 @@ class generate_heatmap_graph:
                          layout='tight',
                          dpi=100
                          )
+        ax = fig.add_subplot()
+        ax.tick_params(axis='x', colors='white')
+        ax.tick_params(axis='y', colors='white')
+
         plt.imshow(self.data, cmap=generate_heatmap_graph.cm)
 
         if show_colorbar:

@@ -1,5 +1,6 @@
 import flet as ft
-from page.elements.element_record_data import switch_main_user, input_text_username, select_game, button_play, button_stop
+from page.elements.element_record_data import switch_main_user, input_text_username, select_game, button_play, \
+    button_stop
 
 
 def Record_Data(page: ft.Page):

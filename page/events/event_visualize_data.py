@@ -1,11 +1,11 @@
 import pandas as pd
-import flet as ft
 from flet_core.matplotlib_chart import MatplotlibChart
 
 import consts.plot
+from page.elements.function.graph_element import build_graph_frame
 from process.data import get_graph_data
-from process.generate_heatmap_graph import generate_heatmap_graph
-from process.generate_statistics_graph import generate_statistics_graph
+from process.generate.generate_heatmap_graph import generate_heatmap_graph
+from process.generate.generate_statistics_graph import generate_statistics_graph
 from page.elements.function.find_element import get_element_by_id
 from page.elements.function.iteract_element import disable_element_list, enable_element_list, disable_element, \
     enable_element, show_into_container
@@ -14,7 +14,6 @@ from page.validation.visualize_data_validation import generate_graph_validation
 from page.events.default.progress_bar import progress_bar
 
 __progress_bar = progress_bar()
-__chart_group = None
 
 
 def generate_graph(event,
@@ -42,7 +41,10 @@ def generate_graph(event,
         dialog.error("Ops, something went wrong...", str(err), event.page)
         return
 
-    __progress_bar.create_progress_bar(event.page, 'Running Train')
+    container_graph = get_element_by_id('container_graph', event.page)
+    container_graph.content.controls.clear()
+
+    __progress_bar.create_progress_bar(event.page, 'Generating Graph')
     __progress_bar.start()
 
     disable_element(event.control)
@@ -64,12 +66,8 @@ def generate_graph(event,
     chart = __generate_chart(graph_type=graph_type.value,
                              data=data
                              )
-
-    chart_frame = __build_graph_frame(chart)
-    container_graph = get_element_by_id('container_graph', event.page.controls)
+    chart_frame = build_graph_frame(chart)
     show_into_container(container_graph, chart_frame)
-
-    # __progress_bar.stop()
 
     enable_element(event.control)
 
@@ -79,6 +77,7 @@ def generate_graph(event,
     if enable is not None:
         disable_element_list(enable)
 
+    __progress_bar.stop()
     event.page.update()
 
 
@@ -145,14 +144,15 @@ def __chart_stats(dataframe: pd.DataFrame):
     _, chart_speed = generate_statistics_graph(data=graph_speed).bar()
     _, chart_general = generate_statistics_graph(data=dataframe).bar()
 
-    chart_list = [chart_click,
-                  chart_movement,
-                  chart_avg_time,
-                  chart_total_time,
-                  chart_distance,
-                  chart_speed,
-                  chart_general
-                  ]
+    chart_list = [
+        chart_click,
+        chart_movement,
+        chart_avg_time,
+        chart_total_time,
+        chart_distance,
+        chart_speed,
+        chart_general
+    ]
 
     return chart_list
 
@@ -163,66 +163,7 @@ def __chart_heatmap(dataframe: pd.DataFrame):
                             expand=True,
                             isolated=True,
                             original_size=True,
-                            transparent=False
+                            transparent=True
                             )
 
     return chart
-
-
-def prev_graph_navigation(chart):
-    pass
-
-
-def next_graph_navigation(chart):
-    pass
-
-
-def __build_graph_control():
-    button_preview = ft.IconButton(
-        icon=ft.icons.NAVIGATE_BEFORE,
-        icon_color="blue400",
-        icon_size=60,
-        tooltip="Preview",
-        # on_click=lambda: prev_graph_navigation(chart, chart_list)
-    )
-    button_next = ft.IconButton(
-        icon=ft.icons.NAVIGATE_NEXT,
-        icon_color="blue400",
-        icon_size=60,
-        tooltip="Next",
-        # on_click=lambda: next_graph_navigation(chart, chart_list)
-    )
-    graph_control_container = ft.Row(
-        [
-            button_preview,
-            button_next
-        ],
-        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-        expand=False
-    )
-
-    return graph_control_container
-
-
-def __build_graph_frame(data):
-    global __chart_group, __chart_page_control
-    row_content = []
-
-    if isinstance(data, list):
-        __chart_group = data
-        __chart_page_control = 0
-
-        row_content.append(__build_graph_control())
-        data = data[__chart_page_control]
-
-    row_content.append(ft.Row(
-        [
-            data
-        ],
-        alignment=ft.MainAxisAlignment.SPACE_AROUND,
-        expand=False
-    ))
-
-    return ft.Column(row_content,
-                     spacing=0
-                     )

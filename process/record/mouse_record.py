@@ -1,4 +1,6 @@
 import time
+from typing import Tuple, Any
+
 import win32api
 from consts import movement
 import pandas as pd
@@ -49,7 +51,7 @@ def is_pressed(button) -> bool:
     return button < 0
 
 
-class record:
+class mouse_record:
     """
     Class to perform data Record.
     Should track the mouse cursor and register data like mouse movement, clicks, time, speed, etc.
@@ -58,6 +60,7 @@ class record:
     Event Files will contain all the tracking data, when a click was performed, which direction the cursor is running and what time is this beeing recorded.
     Status Files will contain a general analysys of the run. Will show how many times the click was active, the distance traveled bu the mouse cursor, etc.
     """
+
     def __init__(self,
                  sample_size: int = 2000,
                  sample_collection_interval: float = 0.01,
@@ -69,6 +72,8 @@ class record:
         :param sample_collection_interval: Interval between a sample collection and the next one.
         :param interval_between_collection: Interval between a run and another. If the user wants to record multiple times with spaced time between collection.
         """
+        self.mouse_stats_dataframe = None
+        self.mouse_event_dataframe = None
         self.sample_size = sample_size
         self.sample_collection_interval = sample_collection_interval
         self.interval_between_collection = interval_between_collection
@@ -316,6 +321,7 @@ class record:
                                                )
 
         return self.mouse_stats_dataframe
+
     def __click_status(self):
         """
         Check if a click is performed and record it on the dataframe
@@ -384,7 +390,7 @@ class record:
                 self.is_moving_ver = False
                 self.__set_ver_dist(self.mov_ver_dist)
 
-    def start_data_reading(self) -> pd.DataFrame:
+    def start_data_reading(self) -> tuple[Any, Any]:
         """
         Control the samples collection and steps that should be analysed.
         Check if click is being performed or the mouse is currently moving
@@ -411,10 +417,10 @@ class record:
         self.new_mouse_stats_record(delta_start)
         return self.mouse_event_dataframe, self.mouse_stats_dataframe
 
-    def run(self,
-            path: str = './record_data',
-            task: str = 'simple'
-            ):
+    def start_record(self,
+                     path: str = './record_data',
+                     task: str = 'simple'
+                     ) -> None:
         """
         Execution method to simplify the usage. Call the method to start record a basic example with 2000 sample collects with a hundredth second interval
         :param path: Where the file should be saved
@@ -436,11 +442,11 @@ class record:
 
 
 if __name__ == '__main__':
-    data_gen = record(sample_size=100)
+    data_gen = mouse_record(sample_size=100)
 
     steps = 1
 
     for step in range(steps):
-        data_gen.run()
+        data_gen.start_record()
 
         print(f'step {step + 1} of {steps}')

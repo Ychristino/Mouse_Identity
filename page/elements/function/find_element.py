@@ -14,14 +14,26 @@ def get_element_by_id(id: str,
         element_list = element_list.controls
 
     for element in element_list:
-        if isinstance(element, list):
-            return_value = get_element_by_id(id, element)
+        return_value = None
+        try:
+            if isinstance(element, ft.Container):
+                return_value = get_element_by_id(id, element.content.controls)
+
+            if isinstance(element, (ft.Column, ft.Row)):
+                return_value = get_element_by_id(id, element.controls)
+
+            if isinstance(element, list):
+                return_value = get_element_by_id(id, element)
+        except Exception as e:
+            return None
+
+        finally:
             if return_value is not None:
                 return return_value
 
-        if hasattr(element, 'id'):
-            if element.id == id:
-                return element
+            if hasattr(element, 'id'):
+                if element.id == id:
+                    return element
 
     return None
 
@@ -41,11 +53,26 @@ def get_element_by_class_name(className: str,
         element_list = element_list.controls
 
     for element in element_list:
-        if isinstance(element, list):
-            return_list += get_element_by_class_name(className, element)
-        if hasattr(element, 'className'):
-            if element.className == className:
-                return_list.append(element)
+        return_value = None
+        try:
+            if isinstance(element, ft.Container):
+                return_value = get_element_by_id(id, element.content.controls)
+
+            if isinstance(element, (ft.Column, ft.Row)):
+                return_value = get_element_by_id(id, element.controls)
+
+            if isinstance(element, list):
+                return_value = get_element_by_id(id, element)
+        except Exception as e:
+            return None
+
+        finally:
+            if return_value is not None:
+                return return_value
+
+            if hasattr(element, 'className'):
+                if element.className == className:
+                    return_list.append(element)
 
     return return_list
 
@@ -65,11 +92,26 @@ def get_element_by_group_name(groupName: str,
         element_list = element_list.controls
 
     for element in element_list:
-        if isinstance(element, list):
-            return_list += get_element_by_group_name(groupName, element)
-        if hasattr(element, 'groupName'):
-            if element.groupName == groupName:
-                return_list.append(element)
+        return_value = None
+        try:
+            if isinstance(element, ft.Container):
+                return_value = get_element_by_id(id, element.content.controls)
+
+            if isinstance(element, (ft.Column, ft.Row)):
+                return_value = get_element_by_id(id, element.controls)
+
+            if isinstance(element, list):
+                return_value = get_element_by_id(id, element)
+        except Exception as e:
+            return None
+
+        finally:
+            if return_value is not None:
+                return return_value
+
+            if hasattr(element, 'groupName'):
+                if element.groupName == groupName:
+                    return_list.append(element)
     return return_list
 
 
@@ -89,13 +131,28 @@ def get_element_by_element_type(element_type: object,
         element_list = element_list.controls
 
     for element in element_list:
-        if isinstance(element, list):
-            return_list += get_element_by_element_type(element_type, element)
-        if type(element) == list:
-            get_element_by_element_type(element_type, element)
-        if hasattr(element, 'className'):
-            if isinstance(element, element_type):
-                return_list.append(element)
+        return_value = None
+        try:
+            if isinstance(element, ft.Container):
+                return_value = get_element_by_id(id, element.content.controls)
+
+            if isinstance(element, (ft.Column, ft.Row)):
+                return_value = get_element_by_id(id, element.controls)
+
+            if isinstance(element, list):
+                return_value = get_element_by_id(id, element)
+        except Exception as e:
+            return None
+
+        finally:
+            if return_value is not None:
+                return return_value
+
+            if type(element) == list:
+                get_element_by_element_type(element_type, element)
+            if hasattr(element, 'className'):
+                if isinstance(element, element_type):
+                    return_list.append(element)
 
     return return_list
 

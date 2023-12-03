@@ -66,7 +66,5 @@ def stop_training(event,
     if enable is not None:
         enable_element_list(enable)
 
-    # __progress_bar.stop()
-    # event.page.controls.pop(2)
-    # event.page.update()
+    __progress_bar.stop()
     event.page.update()

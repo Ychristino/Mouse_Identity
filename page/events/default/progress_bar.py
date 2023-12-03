@@ -58,5 +58,5 @@ class progress_bar:
         """
         Remove the progress bar of the screen and refresh the page
         """
-        self.page.controls.remove()
+        self.page.controls.remove(self.progress_bar_container)
         self.page.update()
